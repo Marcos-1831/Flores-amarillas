@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para ti 🌻</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(160deg, #fff8d6, #ffe27a, #ffd23f);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .pantalla {
+      display: none;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .pantalla.activa {
+      display: block;
+      animation: aparecer 0.8s ease;
+    }
+
+    @keyframes aparecer {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .tarjeta {
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 25px;
+      padding: 35px 25px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    h1 {
+      color: #a36700;
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    p {
+      color: #5c4300;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .botones {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.07);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-si {
+      background: #ff4d4d;
+      color: white;
+    }
+
+    .btn-no {
+      background: #8d6e00;
+      color: white;
+    }
+
+    .poema {
+      font-style: italic;
+      background: #fffbe8;
+      border-left: 6px solid #ffc300;
+      padding: 18px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+
+    .flores {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .flor {
+      position: absolute;
+      bottom: -80px;
+      font-size: 38px;
+      animation: subir 6s linear forwards;
+    }
+
+    @keyframes subir {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .corazon {
+      position: fixed;
+      bottom: -50px;
+      font-size: 26px;
+      animation: subir 7s linear forwards;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- INTRO -->
+  <section id="intro" class="pantalla activa">
+    <div class="tarjeta">
+      <h1>🌻 Tengo algo para ti</h1>
+      <p>Hice este pequeño regalo digital solo para ti.<br>¿Quieres abrirlo?</p>
+      <div class="botones">
+        <button class="btn-si" onclick="responderSi()">Sí 💛</button>
+        <button class="btn-no" onclick="responderNo()">No</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONFIRMACIÓN -->
+  <section id="confirmacion" class="pantalla">
+    <div class="tarjeta">
+      <h1>¿Segura que no quieres abrirlo? 🥺</h1>
+      <p>Te prometo que hay algo bonito esperándote…</p>
+      <div class="botones">
+        <button class="btn-si" onclick="abrirRegalo()">Sí, quiero abrirlo 💛</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGALO -->
+  <section id="regalo" class="pantalla">
+    <div class="tarjeta">
+      <h1>Para ti, con cariño 🌻</h1>
+
+      <div class="poema">
+        <p>
+          Como flores amarillas que brillan al despertar,<br>
+          así ilumina tu sonrisa cada lugar.<br><br>
+          Eres luz, eres calma, eres un sueño bonito,<br>
+          y este pequeño regalo guarda mi cariño infinito.<br><br>
+          Que la vida te regale motivos para sonreír,<br>
+          y que nunca olvides lo especial que eres para mí. 💛
+        </p>
+      </div>
+
+      <p>Con mucho cariño, para una persona muy especial. 🌻✨</p>
+    </div>
+  </section>
+
+  <div id="flores" class="flores"></div>
+
+  <script>
+    const intro = document.getElementById("intro");
+    const confirmacion = document.getElementById("confirmacion");
+    const regalo = document.getElementById("regalo");
+    const contenedorFlores = document.getElementById("flores");
+
+    function mostrarPantalla(pantalla) {
+      document.querySelectorAll(".pantalla").forEach(seccion => {
+        seccion.classList.remove("activa");
+      });
+      pantalla.classList.add("activa");
+    }
+
+    function responderNo() {
+      mostrarPantalla(confirmacion);
+    }
+
+    function responderSi() {
+      abrirRegalo();
+    }
+
+    function abrirRegalo() {
+      mostrarPantalla(regalo);
+      crearFlores();
+    }
+
+    function crearFlores() {
+      const emojis = ["🌻", "🌼", "💛", "✨", "🌸"];
+
+      const intervalo = setInterval(() => {
+        const flor = document.createElement("div");
+        flor.className = "flor";
+        flor.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+        flor.style.left = Math.random() * 95 + "vw";
+        flor.style.animationDuration = (4 + Math.random() * 4) + "s";
+        flor.style.fontSize = (25 + Math.random() * 30) + "px";
+
+        contenedorFlores.appendChild(flor);
+
+        setTimeout(() => {
+          flor.remove();
+        }, 8000);
+      }, 350);
+
+      // Detiene la creación después de 20 segundos para que no se llene demasiado
+      setTimeout(() => {
+        clearInterval(intervalo);
+      }, 20000);
+    }
+  </script>
+
+</body>
+</html>
